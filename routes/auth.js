@@ -2,10 +2,12 @@ const { hashPassword, verifyPassword } = require("../utils");
 
 const authRoute = (instance, options, done) => {
   instance.get("register", (request, reply) => {
-    reply.send("register");
+    if (request.session.user) return reply.redirect('/')
+    reply.view("/views/signup.ejs");
   });
   instance.get("login", (request, reply) => {
-    reply.send("login");
+    if (request.session.user) return reply.redirect('/')
+    reply.view("/views/login.ejs");
   });
 
   instance.post(
@@ -28,6 +30,7 @@ const authRoute = (instance, options, done) => {
         "SELECT id from users where id=?",
         [request.body.username],
         async (e, res) => {
+          console.log(res, request.body.username);
           if (res === undefined) {
             instance.db.run(
               "INSERT INTO users (id, password, roll_number) VALUES (?,?,?)",
@@ -37,6 +40,8 @@ const authRoute = (instance, options, done) => {
                 request.body.rollNumber,
               ]
             );
+            request.session.user = request.body.username;
+            console.log(request.session.user);
             reply.send({ error: false });
           } else {
             reply.send({ error: true });
@@ -65,13 +70,11 @@ const authRoute = (instance, options, done) => {
         "SELECT password from users where id=?",
         [request.body.username],
         async (e, res) => {
-          console.log(res);
           if (
             res !== undefined &&
             verifyPassword(res.password, request.body.password)
           ) {
             request.session.user = request.body.username;
-            console.log(request.session.user);
             reply.send({ error: false });
           } else {
             reply.send({ error: true });
@@ -86,7 +89,7 @@ const authRoute = (instance, options, done) => {
     if (request.session.user) {
       request.session.destroy();
     }
-    return reply.redirect("/");
+    return reply.redirect("/auth/login");
   });
 
   done();

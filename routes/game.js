@@ -8,12 +8,12 @@ const gameRoute = (instance, options, done) => {
       [request.session.user],
       (err, lvl) => {
         instance.db.get(
-          "SELECT * FROM level WHERE id=?",
+          "SELECT * FROM levels WHERE id=?",
           [lvl],
           (err,
-          (data) => {
+            data) => {
             request.session.level = data;
-          })
+          }
         );
       }
     );
@@ -21,11 +21,8 @@ const gameRoute = (instance, options, done) => {
   });
 
   instance.get("/", (request, reply) => {
-    if (request.session.level === undefined) {
-      reply.send("WINNER");
-    } else {
-      reply.send("PKL");
-    }
+    console.log(request.session.level)
+    reply.view("/views/play.ejs", { username: request.session.user });
   });
   instance.post(
     "/",

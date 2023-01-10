@@ -1,4 +1,4 @@
-const fastify = require("fastify")({ logger: true });
+const fastify = require("fastify")({ logger: false });
 const path = require("path");
 const config = require("./config");
 const crypto = require("crypto");
@@ -15,11 +15,12 @@ fastify.register(require("@fastify/static"), {
 });
 fastify.register(require("@fastify/cookie"));
 fastify.register(require("@fastify/session"), {
-  secret:
-    process.env.NODE_ENV === "production"
-      ? crypto.randomBytes(16).toString("hex")
-      : "0".repeat(32),
-  maxAge:config.cookieAge
+  cookieName: 'sessionId',
+  secret: process.env.NODE_ENV === "production"
+    ? crypto.randomBytes(16).toString("hex")
+    : "0".repeat(32),
+  cookie: { secure: process.env.NODE_ENV === "production" },
+  expires: 1800000
 });
 
 fastify.register(require("./plugins/db"));
@@ -28,14 +29,17 @@ fastify.register(require("./plugins/db"));
 fastify.register(require("./routes/index"), { prefix: "/" });
 fastify.register(require("./routes/admin"), { prefix: "/admin/" });
 fastify.register(require("./routes/auth"), { prefix: "/auth/" });
-fastify.register(require("./routes/game"), { prefix: "/play/" });
+fastify.register(require("./routes/game"), { prefix: "/play" });
 fastify.register(require("./routes/levels"), { prefix: "/l/" });
 
 fastify.setNotFoundHandler((request, reply) => {
   reply.send("not found");
 });
 fastify.setErrorHandler((err, request, reply) => {
-  reply.send("error");
+  console.log(err);
+  reply.send({
+    error: true,
+  });
   // TODO: log error
 });
 

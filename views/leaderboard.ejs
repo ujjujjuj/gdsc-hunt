@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leaderboard</title>
+    <link rel="icon" href="/assets/icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin="crossorigin"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/global.css" />
+  </head>
+  <body>
+    <nav class="flex justify-between px-10 py-5 text-sm top-0 inset-x-0">
+      <div>
+        <% if( username != null) { %> Welcome,
+        <span class="text-[#98ABBD]"><%= username %>.</span> <% } %>
+      </div>
+      <div class="flex gap-7">
+        <a class="text-cyan-300" href="/">About</a>
+        <a class="hover:text-cyan-300" href="/rules">Rules</a>
+        <a class="hover:text-cyan-300" href="/play">Play</a>
+        <a class="text-cyan-300" href="/leaderboard">Leaderboard</a>
+        <% if( username != null) { %>
+        <a class="hover:text-cyan-300" href="/auth/logout">Log Out</a>
+        <% } else { %>
+        <a class="hover:text-cyan-300" href="/auth/login">Log In</a>
+        <% } %>
+      </div>
+    </nav>
+    <h1 class="text-center mt-5 text-xl">Leaderboard</h1>
+    <table class="w-[80%] m-auto border-collapse table-fixed mt-5 mb-10">
+      <thead>
+        <tr class="bg-neutral-700 text-md font-light text-slate-300">
+          <th class="w-1/4 py-2 font-normal">Rank</th>
+          <th class="w-2/4 py-2 font-normald">Username</th>
+          <th class="font-normal py-2">Level</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="text-white text-center">
+          <td class="py-3">god</td>
+          <td class="py-3">ndureja</td>
+          <td class="py-3">42</td>
+        </tr>
+        <tr class="text-white text-center bg-slate-800">
+          <td class="py-3">god</td>
+          <td class="py-3">ujjujjuj</td>
+          <td class="py-3">42</td>
+        </tr>
+        <% for(var i=0; i<leaderboard.length; i++) { if(i%2==0) {%>
+        <tr class="text-white text-center">
+          <% }else {%>
+        </tr>
+        <tr class="text-white text-center bg-slate-800">
+          <% } %>
+          <td class="py-3"><%= i+1 %></td>
+          <td class="py-3"><%= leaderboard[i][0] %></td>
+          <td class="py-3"><%= leaderboard[i][1] %></td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </body>
+</html>

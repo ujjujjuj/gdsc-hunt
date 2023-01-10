@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/assets/icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin="crossorigin"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/global.css" />
+    <title>Login</title>
+  </head>
+  <body>
+    <nav class="flex justify-between px-10 py-5 text-sm fixed top-0 inset-x-0">
+      <div></div>
+      <div class="flex gap-7">
+        <a class="hover:text-cyan-300" href="/">About</a>
+        <a class="hover:text-cyan-300" href="/rules">Rules</a>
+        <a class="hover:text-cyan-300" href="/play">Play</a>
+        <a class="hover:text-cyan-300" href="/leaderboard">Leaderboard</a>
+        <a class="hover:text-cyan-300" href="/auth/login">Log In</a>
+      </div>
+    </nav>
+    <img src="/assets/logo.svg" class="m-auto mt-32" alt="" />
+    <form onsubmit="return false;" class="mt-16 flex flex-col items-center">
+      <h1 class="text-xl">Welcome Back!</h1>
+      <input
+        type="text"
+        class="border-white bg-transparent border-solid border rounded py-3 px-4 mt-5 w-80 focus:outline-0 text-sm"
+        placeholder="Username"
+        name="username"
+        id="username"
+      />
+      <input
+        type="password"
+        class="border-white bg-transparent border-solid border rounded py-3 px-4 mt-5 w-80 focus:outline-0 text-sm"
+        placeholder="Password"
+        id="pass"
+      />
+      <button
+        onclick="login()"
+        type="submit"
+        class="bg-white text-black w-80 px-4 py-2 rounded mt-5 border-solid border border-white ease duration-200 hover:bg-transparent hover:text-white"
+      >
+        Sign In
+      </button>
+    </form>
+    <p class="mx-auto text-center mt-6 text-sm">
+      New player?
+      <a class="underline cursor-pointer" href="/auth/register">Sign Up.</a>
+    </p>
+    <p
+      class="error-msg mx-auto text-center text-red-500 text-sm mt-4 hidden"
+    ></p>
+  </body>
+  <script>
+    function verify(username, pass) {
+      if (username.length < 4) {
+        document.querySelector(".error-msg").innerHTML =
+          "Username must be atleast 4 characters long.";
+        document.querySelector(".error-msg").style.display = "block";
+        return false;
+      }
+
+      if (pass.length < 6) {
+        document.querySelector(".error-msg").innerHTML =
+          "Password must be atleast 6 characters long.";
+        document.querySelector(".error-msg").style.display = "block";
+        return false;
+      }
+
+      document.querySelector(".error-msg").style.display = "none";
+      return true;
+    }
+
+    async function login() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("pass").value;
+      let check = verify(username, password);
+      if (check) {
+        let req = await fetch("/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username,
+            password,
+          }),
+        });
+        let res = await req.json();
+        if (res.error) {
+          document.querySelector(".error-msg").innerHTML =
+            "Invalid credentials.";
+          document.querySelector(".error-msg").style.display = "block";
+        } else {
+          window.location.href = "/";
+        }
+      }
+    }
+  </script>
+</html>

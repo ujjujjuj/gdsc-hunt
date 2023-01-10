@@ -1,1 +1,75 @@
-hello <%= username %>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sherlocked</title>
+    <link rel="icon" href="/assets/icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin="crossorigin"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/global.css" />
+  </head>
+  <body>
+    <nav class="flex justify-between px-10 py-5 text-sm fixed top-0 inset-x-0">
+      <div>
+        <% if( username != null) { %> Welcome,
+        <span class="text-[#98ABBD]"><%= username %>.</span> <% } %>
+      </div>
+      <div class="flex gap-7">
+        <a class="text-cyan-300" href="/">About</a>
+        <a class="hover:text-cyan-300" href="/rules">Rules</a>
+        <a class="hover:text-cyan-300" href="/play">Play</a>
+        <a class="hover:text-cyan-300" href="/leaderboard">Leaderboard</a>
+        <% if( username != null) { %>
+        <a class="hover:text-cyan-300" href="/auth/logout">Log Out</a>
+        <% } else { %>
+        <a class="hover:text-cyan-300" href="/auth/login">Log In</a>
+        <% } %>
+      </div>
+    </nav>
+    <div class="flex h-screen flex-col items-center justify-center">
+      <img src="/assets/logo.svg" class="w-5/12" alt="" />
+      <div class="flex items-center flex-col text-sm">
+        <p class="text-center mt-8">
+          The online cryptic hunt organised by
+          <span class="text-[#98ABBD]">GDSC</span>, Netaji Subhas University
+          of<br />
+          Technology, Delhi.
+        </p>
+        <p class="text-center mt-6">
+          Always remember, the answer is right there on your screen but you
+          may<br />
+          never find it.
+        </p>
+        <p class="text-center mt-6">
+          The hunt will start on the
+          <span class="text-[#98ABBD]">18th of January at 8:42 pm.</span>
+        </p>
+        <div class="mt-4">
+          <a
+            href="/rules"
+            class="inline-block bg-white text-black text-center w-40 px-4 py-2 rounded mt-5 border-solid border border-white ease duration-200 hover:bg-transparent hover:text-white"
+          >
+            How to Play</a
+          >
+          <a
+            href="/play"
+            class="inline-block text-center ml-1 hover:bg-white hover:text-black w-40 px-4 py-2 rounded mt-5 border-solid border border-white ease duration-200 bg-transparent hover:text-white"
+          >
+            Play</a
+          >
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

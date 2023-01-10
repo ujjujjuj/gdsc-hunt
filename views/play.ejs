@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Play</title>
+    <link rel="icon" href="/assets/icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin="crossorigin"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/global.css" />
+  </head>
+  <body>
+    <nav class="flex justify-between px-10 py-5 text-sm fixed top-0 inset-x-0">
+      <div>Welcome, <span class="text-[#98ABBD]"><%= username %>.</span></div>
+      <div class="flex gap-7">
+        <a class="hover:text-cyan-300" href="/">About</a>
+        <a class="hover:text-cyan-300" href="/rules">Rules</a>
+        <a class="text-cyan-300" href="/play">Play</a>
+        <a class="hover:text-cyan-300" href="/leaderboard">Leaderboard</a>
+        <a class="hover:text-cyan-300" href="/auth/logout">Log Out</a>
+      </div>
+    </nav>
+    <div
+      class="flex h-screen items-center justify-center flex-col pb-20 w-3/6 m-auto text-center"
+    >
+      <p class="text-[#98ABBD] text-sm">Level 0</p>
+      <p class="title mt-2 font-light">Hello World!</p>
+      <p
+        class="title mt-4 font-normal border py-4 px-6 text-left border-slate-400 text-sm leading-6 rounded"
+      >
+        Long long ago, there was a traveller looking for water. He came across a
+        pond but it was filled with a red substance.
+      </p>
+      <input
+        type="text"
+        class="mt-5 bg-transparent border w-full border-slate-400 rounded py-2 px-4 focus:outline-0 text-sm"
+        placeholder="Enter your answer here"
+      />
+      <button
+        class="bg-white text-[#121019] w-56 rounded mt-5 py-2 border text-sm hover:bg-transparent hover:text-white hover:border-white ease duration-200"
+      >
+        Submit
+      </button>
+    </div>
+  </body>
+</html>

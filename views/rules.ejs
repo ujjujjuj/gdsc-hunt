@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/assets/icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin="crossorigin"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/global.css" />
+    <title>Rules</title>
+  </head>
+  <body>
+    <nav class="flex justify-between px-10 py-5 text-sm top-0 inset-x-0">
+      <div>
+        <% if( username != null) { %> Welcome,
+        <span class="text-[#98ABBD]"><%= username %>.</span> <% } %>
+      </div>
+      <div class="flex gap-7">
+        <a class="hover:text-cyan-300" href="/">About</a>
+        <a class="text-cyan-300" href="/rules">Rules</a>
+        <a class="hover:text-cyan-300" href="/play">Play</a>
+        <a class="hover:text-cyan-300" href="/leaderboard">Leaderboard</a>
+        <% if( username != null) { %>
+        <a class="hover:text-cyan-300" href="/auth/logout">Log Out</a>
+        <% } else { %>
+        <a class="hover:text-cyan-300" href="/auth/login">Log In</a>
+        <% } %>
+      </div>
+    </nav>
+    <h1 class="text-center mt-5 text-xl border-b-2 border-slate w-16 m-auto">
+      Rules
+    </h1>
+    <ul class="list-decimal mt-7 px-40 flex flex-col gap-4">
+      <li>
+        The hunt will last for 2 hours from
+        <span class="text-[#98ABBD]">18th January 8:42 PM</span> to
+        <span class="text-[#98ABBD]">18th January 10:42 PM.</span>
+      </li>
+      <li>
+        The answers are
+        <span class="text-[#98ABBD]">not case sensitive</span> and can contain
+        special characters.
+      </li>
+      <li>
+        A minor typo will result in an incorrect answer, so be doubly sure of
+        what you enter. For example, if the answer is "codewarriors" and you
+        enter "gdsc", it will be considered
+        <span class="text-[#98ABBD]">incorrect.</span>
+      </li>
+      <li>
+        Hints will be posted on the
+        <a href="https://discord.com" class="text-cyan-500 hover:underline"
+          >discord server.</a
+        >
+      </li>
+      <li>Spamming the admins for hints is frowned upon.</li>
+      <li>
+        The use of any unfair means will be dealt with strictly and you shall be
+        <span class="text-[#98ABBD]"> permanently disqualified</span> from
+        participating.
+      </li>
+      <li>
+        There is no restriction on the number of times you can enter an answer,
+        so feel free to guess, although random answers are highly unlikely to
+        work.
+      </li>
+      <li>
+        If you feel you're stuck at any point it's best to clear your head and
+        starting thinking from scratch.
+      </li>
+      <li>
+        Have fun playing and <span class="text-[#98ABBD]">don't panic.</span>
+      </li>
+    </ul>
+  </body>
+</html>

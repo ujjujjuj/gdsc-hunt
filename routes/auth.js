@@ -1,0 +1,95 @@
+const { hashPassword, verifyPassword } = require("../utils");
+
+const authRoute = (instance, options, done) => {
+  instance.get("register", (request, reply) => {
+    reply.send("register");
+  });
+  instance.get("login", (request, reply) => {
+    reply.send("login");
+  });
+
+  instance.post(
+    "register",
+    {
+      schema: {
+        body: {
+          type: "object",
+          properties: {
+            username: { type: "string", minLength: 4 },
+            password: { type: "string", minLength: 6 },
+            rollNumber: { type: "string", minLength: 6 },
+          },
+          required: ["username", "password", "rollNumber"],
+        },
+      },
+    },
+    (request, reply) => {
+      instance.db.get(
+        "SELECT id from users where id=?",
+        [request.body.username],
+        async (e, res) => {
+          if (res === undefined) {
+            instance.db.run(
+              "INSERT INTO users (id, password, roll_number) VALUES (?,?,?)",
+              [
+                request.body.username,
+                await hashPassword(request.body.password),
+                request.body.rollNumber,
+              ]
+            );
+            reply.send({ error: false });
+          } else {
+            reply.send({ error: true });
+          }
+        }
+      );
+    }
+  );
+
+  instance.post(
+    "login",
+    {
+      schema: {
+        body: {
+          type: "object",
+          properties: {
+            username: { type: "string", minLength: 4 },
+            password: { type: "string", minLength: 6 },
+          },
+          required: ["username", "password"],
+        },
+      },
+    },
+    (request, reply) => {
+      instance.db.get(
+        "SELECT password from users where id=?",
+        [request.body.username],
+        async (e, res) => {
+          console.log(res);
+          if (
+            res !== undefined &&
+            verifyPassword(res.password, request.body.password)
+          ) {
+            request.session.user = request.body.username;
+            console.log(request.session.user);
+            reply.send({ error: false });
+          } else {
+            reply.send({ error: true });
+          }
+        }
+      );
+    }
+  );
+
+  instance.get("logout", (request, reply) => {
+    console.log(request.session.user);
+    if (request.session.user) {
+      request.session.destroy();
+    }
+    return reply.redirect("/");
+  });
+
+  done();
+};
+
+module.exports = authRoute;

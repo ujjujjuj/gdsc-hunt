@@ -1,28 +1,33 @@
 const gameRoute = (instance, options, done) => {
   instance.addHook("preHandler", (request, reply, done) => {
-    if (!request.session.user) {
-      reply.redirect("/auth/login");
+    if (request.session.user === undefined) {
+      return reply.redirect("/auth/login");
     }
     instance.db.get(
       "SELECT level FROM users where id=?",
       [request.session.user],
-      (err, lvl) => {
+      (err, user) => {
         instance.db.get(
           "SELECT * FROM levels WHERE id=?",
-          [lvl],
-          (err,
-            data) => {
+          [user.level],
+          (err, data) => {
             request.session.level = data;
+            done();
           }
         );
       }
     );
-    done();
   });
 
   instance.get("/", (request, reply) => {
-    console.log(request.session.level)
-    reply.view("/views/play.ejs", { username: request.session.user });
+    reply.view("/views/play.ejs", {
+      username: request.session.user,
+      level: request.session.level,
+    });
+    console.log({
+      username: request.session.user,
+      level: request.session.level,
+    });
   });
   instance.post(
     "/",

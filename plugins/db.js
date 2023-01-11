@@ -19,6 +19,7 @@ const dbPlugin = (instance, options, done) => {
 
         CREATE TABLE levels(
           id INTEGER NOT NULL PRIMARY KEY,
+          title TEXT,
           text TEXT,
           image TEXT,
           comment TEXT,

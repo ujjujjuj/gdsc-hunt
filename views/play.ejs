@@ -33,13 +33,15 @@
     <div
       class="flex h-screen items-center justify-center flex-col pb-20 w-3/6 m-auto text-center"
     >
-      <p class="text-[#98ABBD] text-sm">Level 0</p>
-      <p class="title mt-2 font-light">Hello World!</p>
+      <% if(!locals.level){ %>
+      <span class="text-2xl">GG</span>
+      <% }else{ %>
+      <p class="text-[#98ABBD] text-sm">Level <%= level.id %></p>
+      <p class="title mt-2 font-light"><%= level.title %></p>
       <p
         class="title mt-4 font-normal border py-4 px-6 text-left border-slate-400 text-sm leading-6 rounded"
       >
-        Long long ago, there was a traveller looking for water. He came across a
-        pond but it was filled with a red substance.
+        <%= level.text %>
       </p>
       <input
         type="text"
@@ -51,6 +53,10 @@
       >
         Submit
       </button>
+      <% } %>
     </div>
   </body>
 </html>
+
+<% if(locals.level && level.comment) {%> <%- "<!-\- " + level.comment + " -\->"
+%> <% } %>

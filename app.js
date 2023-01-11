@@ -15,12 +15,13 @@ fastify.register(require("@fastify/static"), {
 });
 fastify.register(require("@fastify/cookie"));
 fastify.register(require("@fastify/session"), {
-  cookieName: 'sessionId',
-  secret: process.env.NODE_ENV === "production"
-    ? crypto.randomBytes(16).toString("hex")
-    : "0".repeat(32),
+  cookieName: "sessionId",
+  secret:
+    process.env.NODE_ENV === "production"
+      ? crypto.randomBytes(16).toString("hex")
+      : "0".repeat(32),
   cookie: { secure: process.env.NODE_ENV === "production" },
-  expires: 1800000
+  expires: 1800000,
 });
 
 fastify.register(require("./plugins/db"));

@@ -8,6 +8,10 @@
     <link rel="icon" href="/assets/icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+      defer
+    ></script>
     <link
       rel="preconnect"
       href="https://fonts.gstatic.com"
@@ -20,13 +24,42 @@
     <link rel="stylesheet" href="/styles/global.css" />
   </head>
   <body>
-    <nav class="flex justify-between px-10 py-5 text-sm top-0 inset-x-0">
-      <div>
-        <% if( username != null) { %> Welcome,
-        <span class="text-[#98ABBD]"><%= username %>.</span> <% } %>
+    <nav
+      class="flex flex-col md:flex-row justify-between md:px-10 py-5 text-sm fixed top-0 inset-x-0 bg-[#121019] z-10"
+      x-data="{ open: false }"
+    >
+      <div
+        class="flex flex-row items-center justify-between w-full md:w-auto md:px-0 px-6"
+      >
+        <p>
+          <% if( username != null) { %> Welcome,
+          <span class="text-[#98ABBD]"><%= username %>.</span> <% } %>
+        </p>
+        <button
+          class="md:hidden rounded-lg focus:outline-none focus:shadow-outline"
+          @click="open = !open"
+        >
+          <svg fill="currentColor" viewBox="0 0 20 20" class="w-6 h-6">
+            <path
+              x-show="!open"
+              fill-rule="evenodd"
+              d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z"
+              clip-rule="evenodd"
+            ></path>
+            <path
+              x-show="open"
+              fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </button>
       </div>
-      <div class="flex gap-7">
-        <a class="text-cyan-300" href="/">About</a>
+      <div
+        :class="{'flex': open, 'hidden': !open}"
+        class="gap-7 gap-y-4 mt-4 bg-[#121019] border-b-[1px] px-10 pb-5 md:pb-0 md:px-0 md:border-none md:mt-0 md:bg-transparent flex-col flex-grow hidden md:flex md:flex-row md:justify-end"
+      >
+        <a class="hover:text-cyan-300" href="/">About</a>
         <a class="hover:text-cyan-300" href="/rules">Rules</a>
         <a class="hover:text-cyan-300" href="/play">Play</a>
         <a class="text-cyan-300" href="/leaderboard">Leaderboard</a>
@@ -37,16 +70,18 @@
         <% } %>
       </div>
     </nav>
-    <h1 class="text-center mt-5 text-xl">Leaderboard</h1>
-    <table class="w-[80%] m-auto border-collapse table-fixed mt-5 mb-10">
+    <h1 class="text-center mt-20 text-xl">Leaderboard</h1>
+    <table
+      class="w-[90%] md:w-[80%] m-auto border-collapse table-fixed mt-5 mb-10"
+    >
       <thead>
         <tr class="bg-neutral-700 text-md font-light text-slate-300">
           <th class="w-1/4 py-2 font-normal">Rank</th>
-          <th class="w-2/4 py-2 font-normald">Username</th>
+          <th class="w-2/4 py-2 font-normal">Username</th>
           <th class="font-normal py-2">Level</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="text-sm">
         <tr class="text-white text-center">
           <td class="py-3">god</td>
           <td class="py-3">ndureja</td>

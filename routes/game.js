@@ -52,11 +52,12 @@ const gameRoute = (instance, options, done) => {
         ]
       );
       if (request.body.answer === request.session.level.answer) {
-        reply.send({ error: false });
         instance.db.run("UPDATE users SET level=? WHERE id=?", [
-          request.session.level.id,
+          request.session.level.id + 1,
           request.session.user,
         ]);
+        reply.send({ error: false });
+
       } else {
         reply.send({ error: true });
       }

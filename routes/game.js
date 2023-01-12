@@ -6,6 +6,7 @@ const gameRoute = (instance, options, done) => {
     instance.db.get(
       "SELECT level FROM users where id=?",
       [request.session.user],
+
       (err, user) => {
         instance.db.get(
           "SELECT * FROM levels WHERE id=?",
@@ -21,10 +22,6 @@ const gameRoute = (instance, options, done) => {
 
   instance.get("/", (request, reply) => {
     reply.view("/views/play.ejs", {
-      username: request.session.user,
-      level: request.session.level,
-    });
-    console.log({
       username: request.session.user,
       level: request.session.level,
     });
@@ -44,20 +41,20 @@ const gameRoute = (instance, options, done) => {
     },
     (request, reply) => {
       instance.db.run(
-        "INSERT into logs(username,attempt,correct) VALUES(?,?,?)",
+        "INSERT into logs(username,attempt,correct,timestamp) VALUES(?,?,?,?)",
         [
           request.session.user,
           request.body.answer,
           request.body.answer === request.session.level.answer,
+          Date.now(),
         ]
       );
       if (request.body.answer === request.session.level.answer) {
-        instance.db.run("UPDATE users SET level=? WHERE id=?", [
-          request.session.level.id + 1,
-          request.session.user,
-        ]);
+        instance.db.run(
+          "UPDATE users SET level=?, last_answered=? WHERE id=?",
+          [request.session.level.id + 1, Date.now(), request.session.user]
+        );
         reply.send({ error: false });
-
       } else {
         reply.send({ error: true });
       }

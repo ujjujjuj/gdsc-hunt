@@ -4,7 +4,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "PORRT=3001 nodemon app.js"
+    "dev": "nodemon app.js"
   },
   "license": "MIT",
   "dependencies": {

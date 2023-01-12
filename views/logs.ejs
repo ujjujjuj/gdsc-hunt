@@ -1,1 +1,202 @@
-<%- JSON.stringify(logs) %> 
+<% function getTimestamp (unix) { const pad=(n,s=2)=> (`${new Array(s).fill(0)}${n}`).slice(-s);
+    const d = new Date(unix);
+    return `${pad(d.getFullYear(),4)}-${pad(d.getMonth()+1)}-${pad(d.getDate())}
+    ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    }
+    %>
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="icon" href="/assets/icon.png"/>
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <script src="https://cdn.tailwindcss.com?plugins=line-clamp"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin"/>
+        <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet"/>
+        <link rel="stylesheet" href="/styles/global.css"/>
+        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+        <title>Admin | Logs</title>
+    </head>
+
+    <body>
+        <nav class="flex flex-col md:flex-row justify-between md:px-10 py-[14px] md:py-5 text-sm fixed top-0 inset-x-0 md:border-none bg-[#121019] border-b-[0.8px] border-slate-400" x-data="{ open: false }" :class="{'border-slate-400': open, ' border-transparent': !open}">
+            <div class="flex flex-row items-center justify-between w-full md:w-auto md:px-0 px-6">
+                <p>
+                    Welcome,
+                    <span class="text-[#98ABBD]">admin.</span>
+                </p>
+                <button class="md:hidden rounded-lg focus:outline-none focus:shadow-outline" @click="open = !open">
+                    <svg fill="currentColor" viewbox="0 0 20 20" class="w-6 h-6">
+                        <path x-show="!open" fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                        <path x-show="open" fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+            <div :class="{'max-h-[170px] pb-5': open, 'max-h-0 mt-0': !open}" class="gap-7 gap-y-4 mt-5 ease duration-300 px-6 md:pb-0 md:px-0 md:border-none md:mt-0 md:max-h-fit md:bg-transparent max-h-0 pb-0 overflow-hidden flex-col flex-grow flex md:flex md:h-auto md:flex-row md:justify-end">
+                <a class="hover:text-cyan-300" href="/admin">Home</a>
+                <a class="text-cyan-300" href="/admin/logs">Logs</a>
+            </div>
+        </nav>
+        <div class="mt-16 mx-auto md:mt-20 flex items-center gap-4">
+            <h1 class="text-lg md:text-xl border-b-2 border-slate w-fit mx-auto">
+                Logs
+            </h1>
+        </div>
+        <!-- add headers for the table-->
+        <div>
+            <div class="flex mx-10 flex-col md:flex-row items-center md:px-10 py-5 text-sm text-slate ease duration-150">
+                <p class="w-[20%]">ID</p>
+                <p class="w-[20%]">Username</p>
+                <p class="w-[20%]">Attempt</p>
+                <p class="w-[20%]">Timestamp</p>
+                <p class="w-[20%]">Correct</p>
+            </div>
+        </div>
+        <div class="mx-10 border-t-[1px] border-slate-400">
+            <% for (let i=0; i < logs.length; i++) { %>
+                <div class="border-b-[1px] border-slate-400" x-data="{ open: false }">
+                    <div class="flex flex-col text-[#98ABBD] md:flex-row items-center md:px-10 py-5 text-sm ease duration-150" @click="open = !open">
+                        <p class="w-[20%]">
+                            <%= logs[i].id %>
+                        </p>
+                        <p class="w-[20%]">
+                            <%= logs[i].username %>
+                        </p>
+                        <p class="w-[20%]">
+                            <%= logs[i].attempt %>
+                        </p>
+                        <p class="w-[20%]">
+                            <%= getTimestamp(logs[i].timestamp) %>
+                        </p>
+                        <p class="w-[20%]">
+                            <%= logs[i].correct %>
+                        </p>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+
+        <script>
+            document.addEventListener("scroll", (event) => {
+                if (window.scrollY > 10) {
+                    document.querySelector("nav").classList.remove("border-transparent");
+                    document.querySelector("nav").classList.add("border-slate-400");
+                } else {
+                    document.querySelector("nav").classList.add("border-transparent");
+                    document.querySelector("nav").classList.remove("border-slate-400");
+                }
+            });
+
+            async function deleteLevel(id) { // confirm first
+                if (confirm("Are you sure you want to delete this level?")) {
+                    const title = document.getElementById(`form-${id}`)["title"].value;
+                    const text = document.getElementById(`form-${id}`)["text"].value;
+                    const image = document.getElementById(`form-${id}`)["image"].value;
+                    const comment = document.getElementById(`form-${id}`)["comment"].value;
+                    const answer = document.getElementById(`form-${id}`)["answer"].value;
+                    let req = await fetch("/admin/delete", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(
+                            {
+                                id,
+                                title,
+                                text,
+                                image,
+                                comment,
+                                answer
+                            }
+                        )
+                    });
+                    let res = await req.json();
+                    if (res.error) {
+                        alert(res.error);
+                    } else {
+                        window.location.reload();
+                    }
+                }
+            }
+
+            async function addNew() {
+                const form = document.getElementById("add-level");
+                const id = form["id"].value;
+                const title = form["title"].value;
+                const text = form["text"].value;
+                const image = form["image"].value;
+                const comment = form["comment"].value;
+                const answer = form["answer"].value;
+                let req = await fetch("/admin/new", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(
+                        {
+                            id,
+                            title,
+                            text,
+                            image,
+                            comment,
+                            answer
+                        }
+                    )
+                });
+                let res = await req.json();
+                if (res.error) {
+                    alert(res.error);
+                } else {
+                    window.location.reload();
+                }
+            }
+
+            async function edit(id) {
+                const title = document.getElementById(`form-${id}`)["title"].value;
+                const text = document.getElementById(`form-${id}`)["text"].value;
+                const image = document.getElementById(`form-${id}`)["image"].value;
+                const comment = document.getElementById(`form-${id}`)["comment"].value;
+                const answer = document.getElementById(`form-${id}`)["answer"].value;
+                let req = await fetch("/admin/new", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(
+                        {
+                            id,
+                            title,
+                            text,
+                            image,
+                            comment,
+                            answer
+                        }
+                    )
+                });
+                let res = await req.json();
+                if (res.error) {
+                    alert(res.error);
+                } else {
+                    window.location.reload();
+                }
+            }
+        </script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            clifford: "#da373d"
+                        }
+                    }
+                }
+            };
+        </script>
+    </body>
+
+</html>

@@ -16,11 +16,11 @@ const indexRoute = (instance, options, done) => {
           username: request.session.user,
           leaderboard,
         });
+        done();
       }
     );
   });
 
-  done();
 };
 
 module.exports = indexRoute;

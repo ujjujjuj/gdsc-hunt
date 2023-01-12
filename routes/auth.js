@@ -1,17 +1,17 @@
 const { hashPassword, verifyPassword } = require("../utils");
 
 const authRoute = (instance, options, done) => {
-  instance.get("register", (request, reply) => {
-    if (request.session.user) return reply.redirect('/')
+  instance.get("/register", (request, reply) => {
+    if (request.session.user) return reply.redirect("/");
     reply.view("/views/signup.ejs");
   });
-  instance.get("login", (request, reply) => {
-    if (request.session.user) return reply.redirect('/')
+  instance.get("/login", (request, reply) => {
+    if (request.session.user) return reply.redirect("/");
     reply.view("/views/login.ejs");
   });
 
   instance.post(
-    "register",
+    "/register",
     {
       schema: {
         body: {
@@ -52,7 +52,7 @@ const authRoute = (instance, options, done) => {
   );
 
   instance.post(
-    "login",
+    "/login",
     {
       schema: {
         body: {

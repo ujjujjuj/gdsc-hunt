@@ -30,14 +30,14 @@
       :class="{'border-slate-400': open, ' border-slate-900': !open}"
     >
       <div
-        class="flex flex-row items-center justify-between w-full md:w-auto md:px-0 px-6"
+        class="flex flex-row justify-between items-center px-6 w-full md:w-auto md:px-0"
       >
         <p>
           <% if( username != null) { %> Welcome,
           <span class="text-[#98ABBD]"><%= username %>.</span> <% } %>
         </p>
         <button
-          class="md:hidden rounded-lg focus:outline-none focus:shadow-outline"
+          class="rounded-lg md:hidden focus:outline-none focus:shadow-outline"
           @click="open = !open"
         >
           <svg fill="currentColor" viewBox="0 0 20 20" class="w-6 h-6">
@@ -76,28 +76,18 @@
       class="w-[90%] md:w-[80%] m-auto border-collapse table-fixed mt-5 mb-10"
     >
       <thead>
-        <tr class="bg-neutral-700 text-md font-light text-slate-300">
-          <th class="w-1/4 py-2 font-normal">Rank</th>
-          <th class="w-2/4 py-2 font-normal">Username</th>
-          <th class="font-normal py-2">Level</th>
+        <tr class="font-light bg-neutral-700 text-md text-slate-300">
+          <th class="py-2 w-1/4 font-normal">Rank</th>
+          <th class="py-2 w-2/4 font-normal">Username</th>
+          <th class="py-2 font-normal">Level</th>
         </tr>
       </thead>
       <tbody class="text-sm">
-        <tr class="text-white text-center">
-          <td class="py-3">god</td>
-          <td class="py-3">ndureja</td>
-          <td class="py-3">42</td>
-        </tr>
-        <tr class="text-white text-center bg-slate-800">
-          <td class="py-3">god</td>
-          <td class="py-3">ujjujjuj</td>
-          <td class="py-3">42</td>
-        </tr>
         <% for(var i=0; i<leaderboard.length; i++) { if(i%2==0) {%>
-        <tr class="text-white text-center">
+        <tr class="text-center text-white">
           <% }else {%>
         </tr>
-        <tr class="text-white text-center bg-slate-800">
+        <tr class="text-center text-white bg-slate-800">
           <% } %>
           <td class="py-3"><%= i+1 %></td>
           <td class="py-3"><%= leaderboard[i][0] %></td>

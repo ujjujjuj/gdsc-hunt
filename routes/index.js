@@ -8,25 +8,19 @@ const indexRoute = (instance, options, done) => {
   });
 
   instance.get("/leaderboard", (request, reply) => {
-    let leaderboard = [
-      ["ishndas", "9"],
-      ["vikas", "9"],
-      ["shambhavi", "7"],
-      ["shubham", "7"],
-      ["risk101", "6"],
-      ["siddharth", "5"],
-      ["niggas_in_paris", "5"],
-      ["jahnvi", "3"],
-      ["seeya", "-1"],
-      ["shubham", "7"],
-      ["risk101", "6"],
-      ["siddharth", "5"],
-      ["niggas_in_paris", "5"],
-    ]
-    reply.view("/views/leaderboard.ejs", { username: request.session.user, leaderboard });
+    instance.db.all(
+      "SELECT id,level FROM users ORDER BY level DESC, last_answered ASC",
+      (err, users) => {
+        const leaderboard = users.map((user) => [user.id, user.level]);
+        reply.view("/views/leaderboard.ejs", {
+          username: request.session.user,
+          leaderboard,
+        });
+        done();
+      }
+    );
   });
 
-  done();
 };
 
 module.exports = indexRoute;

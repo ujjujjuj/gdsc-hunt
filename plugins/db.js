@@ -12,7 +12,6 @@ const dbPlugin = (instance, options, done) => {
       if (rows.find((row) => row.name === "users") !== undefined) {
         done();
       } else {
-        
         db.exec(
           `
         PRAGMA foreign_keys = ON;
@@ -37,6 +36,7 @@ const dbPlugin = (instance, options, done) => {
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           username TEXT NOT NULL,
           attempt TEXT NOT NULL,
+          timestamp INTEGER NOT NULL,
           correct BOOLEAN NOT NULL,
           FOREIGN KEY(username) references users(id)
         );

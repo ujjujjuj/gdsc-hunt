@@ -15,12 +15,11 @@ const indexRoute = (instance, options, done) => {
         reply.view("/views/leaderboard.ejs", {
           username: request.session.user,
           leaderboard,
-        });
-        done();
-      }
+        });      }
     );
   });
 
+  done();
 };
 
 module.exports = indexRoute;

@@ -25,7 +25,7 @@
   </head>
   <body>
     <nav
-      class="flex flex-col md:flex-row justify-between md:px-10 py-5 text-sm fixed top-0 inset-x-0"
+      class="flex flex-col md:flex-row justify-between md:px-10 py-[14px] md:py-5 text-sm fixed top-0 inset-x-0 md:border-none"
       x-data="{ open: false }"
     >
       <div
@@ -56,8 +56,8 @@
         </button>
       </div>
       <div
-        :class="{'flex': open, 'hidden': !open}"
-        class="gap-7 gap-y-4 mt-4 bg-[#121019] border-b-[1px] px-10 pb-5 md:pb-0 md:px-0 md:border-none md:mt-0 md:bg-transparent flex-col flex-grow hidden md:flex md:flex-row md:justify-end"
+        :class="{'max-h-[190px] pb-5': open, 'max-h-0 mt-0 border-transparent': !open}"
+        class="gap-7 gap-y-4 mt-5 ease duration-300 border-b-[0.8px] border-slate-400 bg-[#121019] px-6 md:pb-0 md:px-0 md:border-none md:mt-0 md:max-h-fit md:bg-transparent max-h-0 pb-0 overflow-hidden flex-col flex-grow flex md:flex md:h-auto md:flex-row md:justify-end"
       >
         <a class="text-cyan-300" href="/">About</a>
         <a class="hover:text-cyan-300" href="/rules">Rules</a>

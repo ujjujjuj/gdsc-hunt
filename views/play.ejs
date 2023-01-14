@@ -28,8 +28,9 @@
   </head>
   <body>
     <nav
-      class="flex flex-col md:flex-row justify-between md:px-10 py-5 text-sm fixed top-0 inset-x-0 bg-[#121019] z-10"
+      class="flex flex-col md:flex-row justify-between md:px-10 py-[14px] md:py-5 text-sm fixed top-0 inset-x-0 md:border-none bg-[#121019] border-b-[0.8px] border-slate-400"
       x-data="{ open: false }"
+      :class="{'border-slate-400': open, ' border-transparent': !open}"
     >
       <div
         class="flex flex-row items-center justify-between w-full md:w-auto md:px-0 px-6"
@@ -59,8 +60,8 @@
         </button>
       </div>
       <div
-        :class="{'flex': open, 'hidden': !open}"
-        class="gap-7 gap-y-4 mt-4 bg-[#121019] border-b-[1px] px-10 pb-5 md:pb-0 md:px-0 md:border-none md:mt-0 md:bg-transparent flex-col flex-grow hidden md:flex md:flex-row md:justify-end"
+        :class="{'max-h-[170px] pb-5': open, 'max-h-0 mt-0': !open}"
+        class="gap-7 gap-y-4 mt-5 ease duration-300 px-6 md:pb-0 md:px-0 md:border-none md:mt-0 md:max-h-fit md:bg-transparent max-h-0 pb-0 overflow-hidden flex-col flex-grow flex md:flex md:h-auto md:flex-row md:justify-end"
       >
         <a class="hover:text-cyan-300" href="/">About</a>
         <a class="hover:text-cyan-300" href="/rules">Rules</a>
@@ -108,35 +109,57 @@
         Wrong answer! Try harder xD.
       </p>
     </div>
-  </body>
-  <script>
-    async function submitAnswer() {
-      let answer = document.getElementById("answer").value.trim();
-      if (answer) {
-        let req = await fetch("/play", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            answer: answer,
-          }),
-        });
-        let res = await req.json();
-        if (res.error) {
-          document.querySelector(".error-msg").innerHTML =
-            "Wrong answer! Try harder xD.";
-          document.querySelector(".error-msg").style.visibility = "visible";
+    <script>
+      document.addEventListener("scroll", (event) => {
+        console.log(window.scrollY);
+        if (window.scrollY > 10) {
+          document.querySelector("nav").classList.add("ease", "duration-300");
+          document.querySelector("nav").classList.remove("border-transparent");
+          document.querySelector("nav").classList.add("border-slate-400");
         } else {
-          window.location.reload();
+          document.querySelector("nav").classList.add("border-transparent");
+          document
+            .querySelector("nav")
+            .classList.remove("ease", "duration-300");
+          document.querySelector("nav").classList.remove("border-slate-400");
         }
-      } else {
-        document.querySelector(".error-msg").innerHTML =
-          "Answer can't be empty! xD.";
-        document.querySelector(".error-msg").style.visibility = "visible";
+      });
+    </script>
+    <script>
+      async function submitAnswer() {
+        let answer = document.getElementById("answer").value.trim();
+        if (answer) {
+          let req = await fetch("/play", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              answer: answer,
+            }),
+          });
+          let res = await req.json();
+          if (res.error) {
+            document.querySelector(".error-msg").innerHTML =
+              "Wrong answer! Try harder xD.";
+            document.querySelector(".error-msg").style.visibility = "visible";
+            setTimeout(() => {
+              document.querySelector(".error-msg").style.visibility = "hidden";
+            }, 2000);
+          } else {
+            window.location.reload();
+          }
+        } else {
+          document.querySelector(".error-msg").innerHTML =
+            "Answer can't be empty! xD.";
+          document.querySelector(".error-msg").style.visibility = "visible";
+          setTimeout(() => {
+            document.querySelector(".error-msg").style.visibility = "hidden";
+          }, 2000);
+        }
       }
-    }
-  </script>
+    </script>
+  </body>
 </html>
 
 <% if(locals.level && level.comment) {%> <%- "<!-\- " + level.comment + " -\->"

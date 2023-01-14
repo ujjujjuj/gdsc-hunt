@@ -18,6 +18,7 @@ const adminRoute = (instance, options, done) => {
 
   instance.get("/", (request, reply) => {
     instance.db.all("SELECT * from levels", (err, levels) => {
+      console.log(levels)
       reply.view("/views/admin.ejs", { levels });
       done();
     });
@@ -64,6 +65,39 @@ const adminRoute = (instance, options, done) => {
       );
     }
   );
+
+
+
+  instance.post(
+    "/delete",
+    {
+      schema: {
+        body: {
+          type: "object",
+          properties: {
+            id: { type: "integer", minimum: 0 },
+            title: { type: "string", default: "" },
+            text: { type: "string", default: "" },
+            image: { type: "string", default: "" },
+            comment: { type: "string", default: "" },
+            answer: { type: "string" },
+          },
+          required: ["id", "answer"],
+        },
+      },
+    },
+    (request, reply) => {
+      instance.db.run(
+        "DELETE FROM levels WHERE id=?",
+        [request.body.id],
+        (err) => {
+          return reply.send({ error: false });
+        }
+      );
+    }
+  );
+
+
 
   instance.get("/logs", (request, reply) => {
     instance.db.all("SELECT * from logs", (e, logs) => {

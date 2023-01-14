@@ -25,8 +25,9 @@
   </head>
   <body>
     <nav
-      class="flex flex-col md:flex-row justify-between md:px-10 py-5 text-sm fixed top-0 inset-x-0 bg-[#121019] z-10"
+      class="flex flex-col md:flex-row justify-between md:px-10 py-[14px] md:py-5 text-sm fixed top-0 inset-x-0 md:border-none bg-[#121019] border-b-[0.8px] border-slate-400"
       x-data="{ open: false }"
+      :class="{'border-slate-400': open, ' border-transparent': !open}"
     >
       <div
         class="flex flex-row items-center justify-between w-full md:w-auto md:px-0 px-6"
@@ -56,8 +57,8 @@
         </button>
       </div>
       <div
-        :class="{'flex': open, 'hidden': !open}"
-        class="gap-7 gap-y-4 mt-4 bg-[#121019] border-b-[1px] px-10 pb-5 md:pb-0 md:px-0 md:border-none md:mt-0 md:bg-transparent flex-col flex-grow hidden md:flex md:flex-row md:justify-end"
+        :class="{'max-h-[170px] pb-5': open, 'max-h-0 mt-0': !open}"
+        class="gap-7 gap-y-4 mt-5 ease duration-300 px-6 md:pb-0 md:px-0 md:border-none md:mt-0 md:max-h-fit md:bg-transparent max-h-0 pb-0 overflow-hidden flex-col flex-grow flex md:flex md:h-auto md:flex-row md:justify-end"
       >
         <a class="hover:text-cyan-300" href="/">About</a>
         <a class="text-cyan-300" href="/rules">Rules</a>
@@ -70,7 +71,9 @@
         <% } %>
       </div>
     </nav>
-    <h1 class="text-center mt-20 text-xl border-b-2 border-slate w-16 m-auto">
+    <h1
+      class="text-center mt-16 md:mt-20 text-lg md:text-xl border-b-2 border-slate w-fit m-auto"
+    >
       Rules
     </h1>
     <ul
@@ -114,7 +117,8 @@
         starting thinking from scratch.
       </li>
       <li>
-        Have fun playing and <span class="text-[#98ABBD]"><s>don&apos;t</s> panic.</span>
+        Have fun playing and
+        <span class="text-[#98ABBD]"><s>don&apos;t</s> panic.</span>
       </li>
     </ul>
     <a
@@ -123,5 +127,16 @@
     >
       Play</a
     >
+    <script>
+      document.addEventListener("scroll", (event) => {
+        if (window.scrollY > 10) {
+          document.querySelector("nav").classList.remove("border-transparent");
+          document.querySelector("nav").classList.add("border-slate-400");
+        } else {
+          document.querySelector("nav").classList.add("border-transparent");
+          document.querySelector("nav").classList.remove("border-slate-400");
+        }
+      });
+    </script>
   </body>
 </html>

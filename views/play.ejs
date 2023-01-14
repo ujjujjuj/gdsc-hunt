@@ -103,11 +103,11 @@
         Submit
       </button>
       <% } %>
-      <p
-        class="invisible mx-auto mt-4 text-sm text-center text-red-500 error-msg"
-      >
-        Wrong answer! Try harder xD.
-      </p>
+      <div class="relative mt-4 w-full text-sm text-center text-red-500">
+        <div
+          class="flex absolute inset-0 flex-col items-center error-msg"
+        ></div>
+      </div>
     </div>
     <script>
       document.addEventListener("scroll", (event) => {
@@ -139,22 +139,20 @@
           });
           let res = await req.json();
           if (res.error) {
-            document.querySelector(".error-msg").innerHTML =
-              "Wrong answer! Try harder xD.";
-            document.querySelector(".error-msg").style.visibility = "visible";
+            const errorElem = document.createElement("span");
+            errorElem.innerText = "Wrong answer! Try harder.";
+            document.querySelector(".error-msg").appendChild(errorElem);
             setTimeout(() => {
-              document.querySelector(".error-msg").style.visibility = "hidden";
+              errorElem.remove();
             }, 2000);
           } else {
             window.location.reload();
           }
         } else {
-          document.querySelector(".error-msg").innerHTML =
-            "Answer can't be empty! xD.";
-          document.querySelector(".error-msg").style.visibility = "visible";
-          setTimeout(() => {
-            document.querySelector(".error-msg").style.visibility = "hidden";
-          }, 2000);
+          const errorElem = document.createElement("span");
+          errorElem.innerText = "Answer can't be empty! xD.";
+          document.querySelector(".error-msg").appendChild(errorElem);
+          setTimeout(() => errorElem.remove(), 2000);
         }
       }
 

@@ -30,7 +30,6 @@ const authRoute = (instance, options, done) => {
         "SELECT id from users where id=?",
         [request.body.username],
         async (e, res) => {
-          console.log(res, request.body.username);
           if (res === undefined) {
             instance.db.run(
               "INSERT INTO users (id, password, roll_number) VALUES (?,?,?)",
@@ -41,7 +40,6 @@ const authRoute = (instance, options, done) => {
               ]
             );
             request.session.user = request.body.username;
-            console.log(request.session.user);
             reply.send({ error: false });
           } else {
             reply.send({ error: true });
@@ -85,7 +83,6 @@ const authRoute = (instance, options, done) => {
   );
 
   instance.get("logout", (request, reply) => {
-    console.log(request.session.user);
     if (request.session.user) {
       request.session.destroy();
     }

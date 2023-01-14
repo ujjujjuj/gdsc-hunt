@@ -18,7 +18,6 @@ const adminRoute = (instance, options, done) => {
 
   instance.get("/", (request, reply) => {
     instance.db.all("SELECT * from levels", (err, levels) => {
-      console.log(levels)
       reply.view("/views/admin.ejs", { levels });
       done();
     });

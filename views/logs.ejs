@@ -49,31 +49,31 @@
         </div>
         <!-- add headers for the table-->
         <div>
-            <div class="flex mx-10 flex-col md:flex-row items-center md:px-10 py-5 text-sm text-slate ease duration-150">
-                <p class="w-[20%]">ID</p>
-                <p class="w-[20%]">Username</p>
-                <p class="w-[20%]">Attempt</p>
-                <p class="w-[20%]">Timestamp</p>
-                <p class="w-[20%]">Correct</p>
+            <div class="flex mx-4 md:mx-10 md:flex-row items-center md:px-10 py-5 text-xs md:text-sm text-slate ease duration-150">
+                <p class="w-[10%] text-center">ID</p>
+                <p class="w-[22.5%] text-center">Username</p>
+                <p class="w-[22.5%] text-center">Attempt</p>
+                <p class="w-[25%] text-center">Timestamp</p>
+                <p class="w-[20%] text-center">Correct</p>
             </div>
         </div>
-        <div class="mx-10 border-t-[1px] border-slate-400">
+        <div class="mx-4 md:mx-10 border-t-[1px] border-slate-400">
             <% for (let i=0; i < logs.length; i++) { %>
-                <div class="border-b-[1px] border-slate-400" x-data="{ open: false }">
-                    <div class="flex flex-col text-[#98ABBD] md:flex-row items-center md:px-10 py-5 text-sm ease duration-150" @click="open = !open">
-                        <p class="w-[20%]">
+                <div class="border-b-[1px] border-slate-400 " x-data="{ open: false }">
+                    <div class="flex <%=  logs[i].correct ? 'text-green-500' : 'text-red-500'  %> md:flex-row items-center md:px-10 py-5 text-xs md:text-sm ease duration-150" @click="open = !open">
+                        <p class="w-[10%] text-center">
                             <%= logs[i].id %>
                         </p>
-                        <p class="w-[20%]">
+                        <p class="w-[22.5%] text-center">
                             <%= logs[i].username %>
                         </p>
-                        <p class="w-[20%]">
+                        <p class="w-[22.5%] text-center">
                             <%= logs[i].attempt %>
                         </p>
-                        <p class="w-[20%]">
+                        <p class="w-[25%] text-center">
                             <%= getTimestamp(logs[i].timestamp) %>
                         </p>
-                        <p class="w-[20%]">
+                        <p class="w-[20%] text-center">
                             <%= logs[i].correct %>
                         </p>
                     </div>

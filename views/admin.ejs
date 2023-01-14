@@ -33,11 +33,11 @@
                 <a class="hover:text-cyan-300" href="/admin/logs">Logs</a>
             </div>
         </nav>
-        <div class="mt-16 mx-10 md:mt-20 flex items-center gap-4" x-data="{ pop_open: false }">
+        <div class="mt-16 mx-3 md:mx-10 md:mt-20 flex items-center gap-4" x-data="{ pop_open: false }">
             <h1 class="text-lg md:text-xl border-b-2 border-slate w-fit">Levels</h1>
             <a @click="pop_open = true" class="flex items-center gap-2 cursor-pointer text-sm px-4 py-2 rounded-lg bg-[#121019] border border-slate-400 hover:bg-slate-400 hover:text-[#121019] hover:border-transparent">Add New Level</a>
             <div class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 z-50 flex items-center justify-center" x-show="pop_open">
-                <form class="bg-[#121019] w-1/2 rounded shadow-lg border border-1 border-slate-600" onsubmit="return false;" id="add-level">
+                <form class="bg-[#121019] w-[95%] sm:w-[79%] md:w-[60%] rounded shadow-lg border border-1 border-slate-600" onsubmit="return false;" id="add-level">
                     <div class="border-b border-slate-300 px-4 py-2 flex justify-between items-center">
                         <h3 class="font-semibold text-lg">Add New Level</h3>
                         <button class="text-white" @click="pop_open = false" @keydown.escape.window="pop_open = false">
@@ -78,25 +78,25 @@
         </div>
         <!-- add headers for the table-->
         <div>
-            <div class="flex mx-10 flex-col md:flex-row items-center md:px-10 py-5 text-sm text-slate ease duration-150">
-                <p class="w-[5%]">ID</p>
-                <p class="w-[20%]">Title</p>
-                <p class="w-[40%]">Text</p>
-                <p class="w-[30%]">Answer</p>
-                <p class="w-[2.5%]"></p>
-                <p class="w-[2.5%]"></p>
+            <div class="flex mx-1 md:mx-10 md:flex-row items-center md:px-10 py-5 text-xs md:text-sm text-slate ease duration-150">
+                <p class="w-[8%]">ID</p>
+                <p class="w-[19%] md:w-[20%]">Title</p>
+                <p class="w-[35%] md:w-[40%]">Text</p>
+                <p class="w-[25%] md:w-[30%]">Answer</p>
+                <p class="w-[7.5%] md:w-[2.5%]"></p>
+                <p class="w-[7.5%] md:w-[2.5%]"></p>
             </div>
         </div>
-        <div class="mx-10 border-t-[1px] border-slate-400">
+        <div class="mx-1 md:mx-10 border-t-[1px] border-slate-400">
             <% for (let i = 0; i < levels.length; i++) { %>
                 <div class="border-b-[1px] border-slate-400" x-data="{ open: false }">
-                    <div class="flex flex-col text-[#98ABBD] md:flex-row items-center md:px-10 py-5 text-sm ease duration-150" @click="open = !open">
-                        <p class="w-[5%]"><%= levels[i].id %></p>
-                        <p class="w-[20%]"><%= levels[i].title %></p>
-                        <p class="w-[40%] line-clamp-1"><%= levels[i].text %></p>
-                        <p class="w-[30%]"><%= levels[i].answer %></p>
-                        <i class="fa-regular fa-pen-to-square w-[2.5%] cursor-pointer"></i>
-                        <i class="fa-regular fa-trash-alt w-[2.5%] cursor-pointer"></i>
+                    <div class="flex  text-[#98ABBD] md:flex-row items-center md:px-10 py-5 text-sm ease duration-150" @click="open = !open">
+                        <p class="w-[8%]"><%= levels[i].id %></p>
+                        <p class="w-[19%] md:w-[20%] line-clamp-1"><%= levels[i].title %></p>
+                        <p class="w-[35%] md:w-[40%] line-clamp-1"><%= levels[i].text %></p>
+                        <p class="w-[25%] md:w-[30%] line-clamp-1"><%= levels[i].answer %></p>
+                        <i class="fa-regular fa-pen-to-square w-[7.5%] md:w-[2.5%] cursor-pointer"></i>
+                        <i class="fa-regular fa-trash-alt w-[7.5%] md:w-[2.5%] cursor-pointer"></i>
                     </div>
                     <div class="flex" x-show="open">
                         <form onsubmit="return false;" class="flex flex-col gap-y-4 w-full" id="form-<%= i %>">

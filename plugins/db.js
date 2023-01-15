@@ -30,15 +30,15 @@ const dbPlugin = (instance, options, done) => {
           password TEXT NOT NULL,
           level INTEGER DEFAULT 0,
           last_answered INTEGER DEFAULT 0,
-          roll_number TEXT
+          team_name TEXT
         );
         CREATE TABLE logs(
           id INTEGER PRIMARY KEY AUTOINCREMENT,
-          username TEXT NOT NULL,
+          team_id TEXT NOT NULL,
           attempt TEXT NOT NULL,
           timestamp INTEGER NOT NULL,
           correct BOOLEAN NOT NULL,
-          FOREIGN KEY(username) references users(id)
+          FOREIGN KEY(team_id) references users(id)
         );
         
         INSERT INTO users(id, password, is_admin) values(

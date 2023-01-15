@@ -99,7 +99,7 @@ const adminRoute = (instance, options, done) => {
 
 
   instance.get("/logs", (request, reply) => {
-    instance.db.all("SELECT * from logs", (e, logs) => {
+    instance.db.all("SELECT logs.id, team_name, attempt, timestamp, correct from logs, users where logs.team_id = users.id", (e, logs) => {
       return reply.view("/views/logs.ejs", { logs });
     });
   });

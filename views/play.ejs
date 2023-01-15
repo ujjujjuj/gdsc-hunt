@@ -1,167 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <% if(locals.level){ %>
-    <meta name="hint" content="<%= level.comment %>" />
-    <% } %>
-    <title>Play</title>
-    <link rel="icon" href="/assets/icon.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      rel="preconnect"
-      href="https://fonts.gstatic.com"
-      crossorigin="crossorigin"
-    />
-    <script
-      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
-      defer
-    ></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/styles/global.css" />
-  </head>
-  <body>
-    <nav
-      class="flex flex-col md:flex-row justify-between md:px-10 py-[14px] md:py-5 text-sm fixed top-0 inset-x-0 md:border-none bg-[#121019] border-b-[0.8px] border-slate-400"
-      x-data="{ open: false }"
-      :class="{'border-slate-400': open, ' border-transparent': !open}"
-    >
-      <div
-        class="flex flex-row justify-between items-center px-6 w-full md:w-auto md:px-0"
-      >
-        <p>
-          <% if( username != null) { %> Welcome,
-          <span class="text-[#98ABBD]"><%= username %>.</span> <% } %>
-        </p>
-        <button
-          class="rounded-lg md:hidden focus:outline-none focus:shadow-outline"
-          @click="open = !open"
-        >
-          <svg fill="currentColor" viewBox="0 0 20 20" class="w-6 h-6">
-            <path
-              x-show="!open"
-              fill-rule="evenodd"
-              d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z"
-              clip-rule="evenodd"
-            ></path>
-            <path
-              x-show="open"
-              fill-rule="evenodd"
-              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            ></path>
-          </svg>
-        </button>
-      </div>
-      <div
-        :class="{'max-h-[170px] pb-5': open, 'max-h-0 mt-0': !open}"
-        class="flex overflow-hidden flex-col flex-grow gap-y-4 gap-7 px-6 pb-0 mt-5 max-h-0 duration-300 ease md:pb-0 md:px-0 md:border-none md:mt-0 md:max-h-fit md:bg-transparent md:flex md:h-auto md:flex-row md:justify-end"
-      >
-        <a class="hover:text-cyan-300" href="/">About</a>
-        <a class="hover:text-cyan-300" href="/rules">Rules</a>
-        <a class="text-cyan-300" href="/play">Play</a>
-        <a class="hover:text-cyan-300" href="/leaderboard">Leaderboard</a>
-        <a class="hover:text-cyan-300" href="/auth/logout">Log Out</a>
-      </div>
-    </nav>
-    <div
-      class="flex h-screen items-center justify-center flex-col pb-10 w-[90%] md:w-[40rem] m-auto text-center"
-    >
-      <% if(!locals.level){ %>
-      <span class="text-2xl">GG</span>
-      <% }else{ %>
-      <p class="text-[#98ABBD] text-sm">Level <%= level.id %></p>
-      <p class="mt-2 font-light title"><%= level.title %></p>
-      <div
-        class="px-6 py-4 mt-4 w-full text-sm font-normal leading-6 text-left rounded border title border-slate-400"
-      >
-        <%= level.text %> <% if(level.image) { %>
-        <img
-          class="mt-2 w-44"
-          src="<%= level.image %>"
-          alt="Level <%= level.id %> image"
-        />
+    <head>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <% if(locals.level){ %>
+            <meta name="hint" content="<%= level.comment %>"/>
         <% } %>
-      </div>
-      <input
-        type="text"
-        class="px-4 py-2 mt-4 w-full text-sm bg-transparent rounded border border-slate-400 focus:outline-0"
-        placeholder="Enter your answer here"
-        id="answer"
-        onkeydown="if(event.key === 'Enter') submitAnswer()"
-      />
-      <button
-        class="bg-white text-[#121019] w-full sm:w-56 rounded mt-4 py-2 border text-sm hover:bg-transparent hover:text-white hover:border-white ease duration-200"
-        onclick="submitAnswer()"
-      >
-        Submit
-      </button>
-      <% } %>
-      <div class="relative mt-4 w-full text-sm text-center text-red-500">
-        <div
-          class="flex absolute inset-0 flex-col items-center error-msg"
-        ></div>
-      </div>
-    </div>
-    <script>
-      document.addEventListener("scroll", (event) => {
-        if (window.scrollY > 10) {
-          document.querySelector("nav").classList.add("ease", "duration-300");
-          document.querySelector("nav").classList.remove("border-transparent");
-          document.querySelector("nav").classList.add("border-slate-400");
-        } else {
-          document.querySelector("nav").classList.add("border-transparent");
-          document
-            .querySelector("nav")
-            .classList.remove("ease", "duration-300");
-          document.querySelector("nav").classList.remove("border-slate-400");
-        }
-      });
-    </script>
-    <script>
-      async function submitAnswer() {
-        const answer = document.getElementById("answer").value.trim();
-        if (answer) {
-          let req = await fetch("/play", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              answer: answer,
-            }),
-          });
-          let res = await req.json();
-          if (res.error) {
-            const errorElem = document.createElement("span");
-            errorElem.innerText = "Wrong answer! Try harder.";
-            document.querySelector(".error-msg").appendChild(errorElem);
-            setTimeout(() => {
-              errorElem.remove();
-            }, 2000);
-          } else {
-            window.location.reload();
-          }
-        } else {
-          const errorElem = document.createElement("span");
-          errorElem.innerText = "Answer can't be empty! xD.";
-          document.querySelector(".error-msg").appendChild(errorElem);
-          setTimeout(() => errorElem.remove(), 2000);
-        }
-      }
+        <title>Play</title>
+        <link rel="icon" href="/assets/icon.png"/>
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin"/>
+        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+        <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet"/>
+        <link rel="stylesheet" href="/styles/global.css"/>
+    </head>
+    <body>
+        <nav class="flex flex-col md:flex-row justify-between md:px-10 py-[14px] md:py-5 text-sm fixed top-0 inset-x-0 md:border-none bg-[#121019] border-b-[0.8px] border-slate-400" x-data="{ open: false }" :class="{'border-slate-400': open, ' border-transparent': !open}">
+            <div class="flex flex-row justify-between items-center px-6 w-full md:w-auto md:px-0">
+                <p>
+                    <% if( username != null) { %>
+                        Welcome,
+                        <span class="text-[#98ABBD]"><%= username %>.</span>
+                    <% } %>
+                </p>
+                <button class="rounded-lg md:hidden focus:outline-none focus:shadow-outline" @click="open = !open">
+                    <svg fill="currentColor" viewbox="0 0 20 20" class="w-6 h-6">
+                        <path x-show="!open" fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                        <path x-show="open" fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+            <div :class="{'max-h-[170px] pb-5': open, 'max-h-0 mt-0': !open}" class="flex overflow-hidden flex-col flex-grow gap-y-4 gap-7 px-6 pb-0 mt-5 max-h-0 duration-300 ease md:pb-0 md:px-0 md:border-none md:mt-0 md:max-h-fit md:bg-transparent md:flex md:h-auto md:flex-row md:justify-end">
+                <a class="hover:text-cyan-300" href="/">About</a>
+                <a class="hover:text-cyan-300" href="/rules">Rules</a>
+                <a class="text-cyan-300" href="/play">Play</a>
+                <a class="hover:text-cyan-300" href="/leaderboard">Leaderboard</a>
+                <a class="hover:text-cyan-300" href="/auth/logout">Log Out</a>
+            </div>
+        </nav>
+        <div class="flex h-screen items-center justify-center flex-col pb-10 w-[90%] md:w-[40rem] m-auto text-center">
+            <% if(!locals.level){ %>
+                <span class="text-2xl">GG</span>
+            <% }else{ %>
+                <p class="text-[#98ABBD] text-sm">Level
+                    <%= level.id %></p>
+                <p class="mt-2 font-light title"><%= level.title %></p>
+                <div class="px-6 py-4 mt-4 w-full text-sm font-normal leading-6 text-left rounded border title border-slate-400">
+                    <%= level.text %>
+                    <% if(level.image) { %>
+                        <img class="mt-2 w-44" src="<%= level.image %>" alt="Level <%= level.id %> image"/>
+                    <% } %>
+                </div>
+                <input type="text" class="px-4 py-2 mt-4 w-full text-sm bg-transparent rounded border border-slate-400 focus:outline-0" placeholder="Enter your answer here" id="answer" onkeyup="if(event.key === 'Enter') submitAnswer()"/>
+                <button class="bg-white text-[#121019] w-full sm:w-56 rounded mt-4 py-2 border text-sm hover:bg-transparent hover:text-white hover:border-white ease duration-200" onclick="submitAnswer()">
+                    Submit
+                </button>
+            <% } %>
+            <div class="relative mt-4 w-full text-sm text-center text-red-500">
+                <div class="flex absolute inset-0 flex-col items-center error-msg"></div>
+            </div>
+        </div>
+        <script>
+            document.addEventListener("scroll", (event) => {
+                if (window.scrollY > 10) {
+                    document.querySelector("nav").classList.add("ease", "duration-300");
+                    document.querySelector("nav").classList.remove("border-transparent");
+                    document.querySelector("nav").classList.add("border-slate-400");
+                } else {
+                    document.querySelector("nav").classList.add("border-transparent");
+                    document.querySelector("nav").classList.remove("ease", "duration-300");
+                    document.querySelector("nav").classList.remove("border-slate-400");
+                }
+            });
+        </script>
+        <script>
+            async function submitAnswer() {
+                const answer = document.getElementById("answer").value.trim();
+                if (answer) {
+                    let req = await fetch("/play", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(
+                            {answer: answer}
+                        )
+                    });
+                    let res = await req.json();
+                    if (res.error) {
+                        const errorElem = document.createElement("span");
+                        errorElem.innerText = "Wrong answer! Try harder.";
+                        document.querySelector(".error-msg").appendChild(errorElem);
+                        setTimeout(() => {
+                            errorElem.remove();
+                        }, 2000);
+                    } else {
+                        window.location.reload();
+                    }
+                } else {
+                    const errorElem = document.createElement("span");
+                    errorElem.innerText = "Answer can't be empty! xD.";
+                    document.querySelector(".error-msg").appendChild(errorElem);
+                    setTimeout(() => errorElem.remove(), 2000);
+                }
+            }
 
-      document.getElementById("answer").addEventListener("input", (e) => {
-        e.target.value = e.target.value.toLowerCase().replaceAll(" ", "");
-      });
-    </script>
-  </body>
+            document.getElementById("answer").addEventListener("input", (e) => {
+                e.target.value = e.target.value.toLowerCase().replaceAll(" ", "");
+            });
+        </script>
+    </body>
 </html>
 
-<% if(locals.level && level.comment) {%> <%- "<!-\- " + level.comment + " -\->"
-%> <% } %>
+<% if(locals.level && level.comment) {%>
+    <%- "<!-\- " + level.comment + " -\->"
+%>
+<% } %>

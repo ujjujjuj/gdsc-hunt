@@ -41,7 +41,7 @@ const gameRoute = (instance, options, done) => {
     },
     (request, reply) => {
       instance.db.run(
-        "INSERT into logs(username,attempt,correct,timestamp) VALUES(?,?,?,?)",
+        "INSERT into logs(team_id,attempt,correct,timestamp) VALUES(?,?,?,?)",
         [
           request.session.user,
           request.body.answer,

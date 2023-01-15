@@ -17,29 +17,29 @@ const authRoute = (instance, options, done) => {
         body: {
           type: "object",
           properties: {
-            username: { type: "string", minLength: 4 },
+            teamID: { type: "string", minLength: 3 },
             password: { type: "string", minLength: 6 },
-            rollNumber: { type: "string", minLength: 6 },
+            teamName: { type: "string", minLength: 3 },
           },
-          required: ["username", "password", "rollNumber"],
+          required: ["teamID", "password", "teamName"],
         },
       },
     },
     (request, reply) => {
       instance.db.get(
         "SELECT id from users where id=?",
-        [request.body.username],
+        [request.body.teamID],
         async (e, res) => {
           if (res === undefined) {
             instance.db.run(
-              "INSERT INTO users (id, password, roll_number) VALUES (?,?,?)",
+              "INSERT INTO users (id, password, team_name) VALUES (?,?,?)",
               [
-                request.body.username,
+                request.body.teamID,
                 await hashPassword(request.body.password),
-                request.body.rollNumber,
+                request.body.teamName,
               ]
             );
-            request.session.user = request.body.username;
+            request.session.user = request.body.teamID;
             reply.send({ error: false });
           } else {
             reply.send({ error: true });
@@ -56,23 +56,23 @@ const authRoute = (instance, options, done) => {
         body: {
           type: "object",
           properties: {
-            username: { type: "string", minLength: 4 },
+            teamID: { type: "string", minLength: 3 },
             password: { type: "string", minLength: 6 },
           },
-          required: ["username", "password"],
+          required: ["teamID", "password"],
         },
       },
     },
     (request, reply) => {
       instance.db.get(
         "SELECT password from users where id=?",
-        [request.body.username],
+        [request.body.teamID],
         async (e, res) => {
           if (
             res !== undefined &&
             verifyPassword(res.password, request.body.password)
           ) {
-            request.session.user = request.body.username;
+            request.session.user = request.body.teamID;
             reply.send({ error: false });
           } else {
             reply.send({ error: true });

@@ -9,7 +9,7 @@ const indexRoute = (instance, options, done) => {
 
   instance.get("/leaderboard", (request, reply) => {
     instance.db.all(
-      "SELECT id,level FROM users ORDER BY level DESC, last_answered ASC",
+      "SELECT team_name,level FROM users ORDER BY level DESC, last_answered ASC",
       (err, users) => {
         const leaderboard = users.map((user) => [user.id, user.level]);
         reply.view("/views/leaderboard.ejs", {

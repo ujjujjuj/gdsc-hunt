@@ -4,16 +4,26 @@ const gameRoute = (instance, options, done) => {
       return reply.redirect("/auth/login");
     }
     instance.db.get(
-      "SELECT level FROM users where id=?",
+      "SELECT team_name,level FROM users where id=?",
       [request.session.user],
-
       (err, user) => {
         instance.db.get(
-          "SELECT * FROM levels WHERE id=?",
-          [user.level],
-          (err, data) => {
-            request.session.level = data;
-            done();
+          "SELECT val FROM settings where key='isPaused'",
+          (err, { val }) => {
+            console.log(user);
+            if (val.toLowerCase() === "true") {
+              return reply.view("/views/wait.ejs", {
+                username: request.session.user,
+              });
+            }
+            instance.db.get(
+              "SELECT * FROM levels WHERE id=?",
+              [user.level],
+              (err, data) => {
+                request.session.level = data;
+                done();
+              }
+            );
           }
         );
       }

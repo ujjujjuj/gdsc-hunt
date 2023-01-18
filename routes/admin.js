@@ -65,8 +65,6 @@ const adminRoute = (instance, options, done) => {
     }
   );
 
-
-
   instance.post(
     "/delete",
     {
@@ -96,12 +94,33 @@ const adminRoute = (instance, options, done) => {
     }
   );
 
-
-
   instance.get("/logs", (request, reply) => {
-    instance.db.all("SELECT logs.id, team_name, attempt, timestamp, correct from logs, users where logs.team_id = users.id", (e, logs) => {
-      return reply.view("/views/logs.ejs", { logs });
-    });
+    instance.db.all(
+      "SELECT logs.id, team_name, attempt, timestamp, correct from logs, users where logs.team_id = users.id",
+      (e, logs) => {
+        return reply.view("/views/logs.ejs", { logs });
+      }
+    );
+  });
+
+  instance.post("/toggle", (request, reply) => {
+    instance.db.GET(
+      "SELECT val FROM settings WHERE key='isPaused'",
+      (err, { val }) => {
+        let newVal = "true";
+        if (val.toLowerCase() === "true") {
+          newVal = "false";
+        }
+
+        instance.db.run(
+          "UPDATE settings SET val='?' WHERE key='isPaused'",
+          [newVal],
+          (err) => {
+            return reply.send({ error: false });
+          }
+        );
+      }
+    );
   });
 
   done();

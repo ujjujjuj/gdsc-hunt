@@ -40,14 +40,23 @@ const dbPlugin = (instance, options, done) => {
           correct BOOLEAN NOT NULL,
           FOREIGN KEY(team_id) references users(id)
         );
+        CREATE TABLE settings(
+          key TEXT PRIMARY KEY NOT NULL,
+          val TEXT NOT NULL
+        );
         
-        INSERT INTO users(id, password, is_admin, team_name, level) values(
+        INSERT INTO users(id, password, is_admin, team_name, level) VALUES(
           '${process.env.ADMIN_USER ?? "admin"}',
           '${await hashPassword(process.env.ADMIN_PASSWORD ?? "password")}',
           TRUE,
           "God",
           99999
-        )
+        );
+
+        INSERT INTO settings(key, val) VALUES(
+          "isPaused",
+          "true"  
+        );
         `,
           (e) => {
             if (e) {

@@ -82,9 +82,11 @@
         >Add New Level</a
       >
       <a
-        class="flex items-center gap-2 cursor-pointer text-sm px-4 py-2 rounded-lg bg-[#121019] border border-slate-400 hover:bg-slate-400 hover:text-[#121019] hover:border-transparent"
-        >Start Hunt</a
+        onclick="toggleHunt()"
+        class="flex items-center gap-2 cursor-pointer text-sm px-4 py-2 <%= settings[0].val ==='true' ? 'text-green-500 border-green-500' : 'text-red-500 border-red-500' %> rounded-lg bg-[#121019] border hover:bg-slate-400 hover:text-[#121019] hover:border-transparent"
       >
+        <%= settings[0].val === 'true' ? "Start Hunt" : "Stop Hunt" %>
+      </a>
 
       <div
         class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 z-50 flex items-center justify-center"
@@ -384,6 +386,22 @@
             comment,
             answer,
           }),
+        });
+        let res = await req.json();
+        if (res.error) {
+          alert(res.error);
+        } else {
+          window.location.reload();
+        }
+      }
+
+      async function toggleHunt() {
+        let req = await fetch("/admin/toggle", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({}),
         });
         let res = await req.json();
         if (res.error) {

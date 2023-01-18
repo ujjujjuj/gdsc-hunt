@@ -18,8 +18,10 @@ const adminRoute = (instance, options, done) => {
 
   instance.get("/", (request, reply) => {
     instance.db.all("SELECT * from levels", (err, levels) => {
-      reply.view("/views/admin.ejs", { levels });
-      done();
+      instance.db.all("SELECT * from settings", (err, settings) => {
+        reply.view("/views/admin.ejs", { levels, settings });
+        done();
+      })
     });
   });
 
@@ -96,7 +98,7 @@ const adminRoute = (instance, options, done) => {
 
   instance.get("/logs", (request, reply) => {
     instance.db.all(
-      "SELECT logs.id, team_name, attempt, timestamp, correct from logs, users where logs.team_id = users.id",
+      "SELECT logs.id, team_name, attempt, timestamp, correct from logs, users where logs.team_id = users.id ORDER BY timestamp DESC",
       (e, logs) => {
         return reply.view("/views/logs.ejs", { logs });
       }
@@ -104,7 +106,7 @@ const adminRoute = (instance, options, done) => {
   });
 
   instance.post("/toggle", (request, reply) => {
-    instance.db.GET(
+    instance.db.get(
       "SELECT val FROM settings WHERE key='isPaused'",
       (err, { val }) => {
         let newVal = "true";
@@ -113,7 +115,7 @@ const adminRoute = (instance, options, done) => {
         }
 
         instance.db.run(
-          "UPDATE settings SET val='?' WHERE key='isPaused'",
+          "UPDATE settings SET val=? WHERE key='isPaused'",
           [newVal],
           (err) => {
             return reply.send({ error: false });

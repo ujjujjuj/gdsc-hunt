@@ -11,7 +11,8 @@ const indexRoute = (instance, options, done) => {
     instance.db.all(
       "SELECT team_name,level FROM users ORDER BY level DESC, last_answered ASC",
       (err, users) => {
-        const leaderboard = users.map((user) => [user.id, user.level]);
+        console.log(users);
+        const leaderboard = users.map((user) => [user.team_name, user.level]);
         reply.view("/views/leaderboard.ejs", {
           username: request.session.user,
           leaderboard,

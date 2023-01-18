@@ -41,10 +41,12 @@ const dbPlugin = (instance, options, done) => {
           FOREIGN KEY(team_id) references users(id)
         );
         
-        INSERT INTO users(id, password, is_admin) values(
+        INSERT INTO users(id, password, is_admin, team_name, level) values(
           '${process.env.ADMIN_USER ?? "admin"}',
           '${await hashPassword(process.env.ADMIN_PASSWORD ?? "password")}',
-          TRUE
+          TRUE,
+          "God",
+          99999
         )
         `,
           (e) => {

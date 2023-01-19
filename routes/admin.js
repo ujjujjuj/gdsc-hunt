@@ -1,18 +1,18 @@
 const adminRoute = (instance, options, done) => {
   instance.addHook("preHandler", (request, reply, done) => {
-    // if (request.session.user === undefined) {
-    //   return reply.redirect("/auth/login");
-    // }
-    // instance.db.get(
-    //   "SELECT is_admin FROM users where id=?",
-    //   [request.session.user],
-    //   (err, user) => {
-    //     if (!user.is_admin) {
-    //       return reply.redirect("/");
-    //     }
-    //     done();
-    //   }
-    // );
+    if (request.session.user === undefined) {
+      return reply.redirect("/auth/login");
+    }
+    instance.db.get(
+      "SELECT is_admin FROM users where id=?",
+      [request.session.user],
+      (err, user) => {
+        if (!user.is_admin) {
+          return reply.redirect("/");
+        }
+        done();
+      }
+    );
     done();
   });
 

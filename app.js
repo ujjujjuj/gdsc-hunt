@@ -31,7 +31,7 @@ fastify.register(require("./routes/index"), { prefix: "/" });
 fastify.register(require("./routes/admin"), { prefix: "/admin" });
 fastify.register(require("./routes/auth"), { prefix: "/auth/" });
 fastify.register(require("./routes/game"), { prefix: "/play" });
-fastify.register(require("./routes/levels"), { prefix: "/l/" });
+fastify.register(require("./routes/levels"), { prefix: "/" });
 
 fastify.setNotFoundHandler((request, reply) => {
   reply.send("not found");

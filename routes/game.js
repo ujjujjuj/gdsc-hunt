@@ -10,7 +10,6 @@ const gameRoute = (instance, options, done) => {
         instance.db.get(
           "SELECT val FROM settings where key='isPaused'",
           (err, { val }) => {
-            console.log(user);
             if (val.toLowerCase() === "true") {
               return reply.view("/views/wait.ejs", {
                 username: request.session.user,
@@ -43,7 +42,7 @@ const gameRoute = (instance, options, done) => {
         body: {
           type: "object",
           properties: {
-            answer: { type: "string" },
+            answer: { type: "string", maxLength: 40 },
           },
           required: ["answer"],
         },

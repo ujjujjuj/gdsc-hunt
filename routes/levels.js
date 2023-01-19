@@ -1,6 +1,8 @@
 const levelsRoute = (instance, options, done) => {
 
-  instance.get("/", (request, reply) => {});
+  instance.get("/gottagofast", (request, reply) => {
+    return reply.view("challenges/gottagofast.html");
+  });
   done();
 };
 

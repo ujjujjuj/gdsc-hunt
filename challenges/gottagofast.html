@@ -30,10 +30,10 @@
     <body>
         <div>
             <p>Answer in</p>
-            <span>5</span>
+            <span>3</span>
         </div>
         <script>
-            let counter = 4;
+            let counter = 2;
             const elem = document.querySelector("span");
 
             const int = setInterval(() => {
@@ -41,11 +41,13 @@
                     elem.innerHTML = counter.toString();
                     counter--;
                 } else {
-                    document.body.innerHTML = `g` + `` + `` + `ds` + `cns` + `` + `` + `ut{THIS_IS_TH`+`E_` + `` + `ANSWER}`;
+                    document.body.innerHTML = `s` + `` + `a` + `` + `n` + `` + `i` + `` + `c` + `` + `w` + `` + `i` + `` + `l` + `` + `l` + `` + `a` + `` + `l` + `` + `w` + `` + `a` + `` + `y` + `` + `s` + `` + `b` + `` + `e` + `` + `f` + `` + `a` + `` + `s` + `` + `t` + `` + `e` + `` + `r` + `` + `t` + `` + `h` + `` + `a` + `` + `n` + `` + `y` + `` + `o` + `` + `u`;
                     setTimeout(() => {
                         document.body.innerHTML = `TOO SLOW`;
-                        window.location.reload();
-                    }, 50);
+                        setTimeout(() => {
+                            window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+                        },1000);
+                    }, 10);
                     clearInterval(int);
                 }
             }, 1000);

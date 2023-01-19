@@ -70,7 +70,7 @@ const authRoute = (instance, options, done) => {
         async (e, res) => {
           if (
             res !== undefined &&
-            verifyPassword(res.password, request.body.password)
+            (await verifyPassword(res.password, request.body.password))
           ) {
             request.session.user = request.body.teamID;
             reply.send({ error: false });
